@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>3D-модель санузла</title>
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+    <style>
+      :root {
+        color-scheme: light;
+        font-family: Inter, "Segoe UI", Arial, sans-serif;
+        background: #eef3f7;
+        color: #1f2933;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        grid-template-rows: auto 1fr;
+        background:
+          linear-gradient(180deg, rgba(245, 248, 250, 0.7), rgba(225, 232, 237, 0.96)),
+          #e1e8ed;
+      }
+
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 18px clamp(16px, 4vw, 44px);
+        border-bottom: 1px solid rgba(35, 50, 65, 0.12);
+        background: rgba(255, 255, 255, 0.78);
+        backdrop-filter: blur(12px);
+      }
+
+      h1 {
+        margin: 0;
+        font-size: clamp(22px, 3vw, 34px);
+        font-weight: 720;
+      }
+
+      .actions {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+      }
+
+      button,
+      a.button {
+        min-height: 42px;
+        border: 1px solid rgba(35, 50, 65, 0.18);
+        border-radius: 8px;
+        padding: 0 14px;
+        background: #ffffff;
+        color: #1f2933;
+        font: inherit;
+        font-weight: 650;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+      }
+
+      button:hover,
+      a.button:hover {
+        border-color: rgba(28, 117, 188, 0.44);
+        color: #0b5f9c;
+      }
+
+      main {
+        min-height: 0;
+        display: grid;
+      }
+
+      model-viewer {
+        width: 100%;
+        height: 100%;
+        min-height: calc(100vh - 80px);
+        background:
+          radial-gradient(circle at 18% 12%, rgba(255, 255, 255, 0.34), transparent 34%),
+          linear-gradient(140deg, #cbd8df 0%, #e6ebef 54%, #bfc9d0 100%);
+      }
+
+      .poster {
+        color: #4a5562;
+        font-size: 18px;
+      }
+
+      @media (max-width: 720px) {
+        header {
+          align-items: stretch;
+          flex-direction: column;
+        }
+
+        .actions {
+          justify-content: stretch;
+        }
+
+        button,
+        a.button {
+          flex: 1 1 130px;
+        }
+
+        model-viewer {
+          min-height: calc(100vh - 142px);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>3D-модель санузла</h1>
+      <div class="actions">
+        <button type="button" id="reset-view">Сбросить вид</button>
+        <a class="button" href="glass-bathroom-model.glb" download>Скачать GLB</a>
+      </div>
+    </header>
+
+    <main>
+      <model-viewer
+        id="viewer"
+        src="glass-bathroom-model.glb"
+        alt="Интерактивная 3D-модель санузла со стеклянными элементами"
+        camera-controls
+        touch-action="pan-y"
+        auto-rotate
+        rotation-per-second="18deg"
+        shadow-intensity="0.9"
+        exposure="0.58"
+        environment-image="neutral"
+        camera-orbit="-42deg 62deg auto"
+        min-camera-orbit="auto 12deg 1m"
+        max-camera-orbit="auto 86deg auto"
+        field-of-view="34deg"
+      >
+        <div class="poster" slot="poster">Загрузка 3D-модели...</div>
+      </model-viewer>
+    </main>
+
+    <script>
+      const viewer = document.querySelector("#viewer");
+      document.querySelector("#reset-view").addEventListener("click", () => {
+        viewer.cameraOrbit = "-42deg 62deg auto";
+        viewer.fieldOfView = "34deg";
+        viewer.jumpCameraToGoal();
+      });
+    </script>
+  </body>
+</html>
